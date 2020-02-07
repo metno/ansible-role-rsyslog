@@ -1,0 +1,9 @@
+# vim: ai et ts=2 st=2 sw=2 :
+---
+- hosts: all
+  become: true
+  roles:
+    - role: ../../.
+      syslog_config:
+        - target_ip: 10.100.10.10
+          target_protocol: udp
