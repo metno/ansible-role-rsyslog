@@ -1,4 +1,4 @@
 # vim: ai et ts=2 st=2 sw=2 :
 ---
-syslog_journald_size: 1G
-syslog: {}
+rsyslog_journald_size: 1G
+rsyslog: {}

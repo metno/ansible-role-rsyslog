@@ -4,6 +4,6 @@
   become: true
   roles:
     - role: ../../.
-      syslog_config:
+      rsyslog_config:
         - target_ip: 10.100.10.10
           target_protocol: udp

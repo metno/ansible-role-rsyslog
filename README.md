@@ -1,5 +1,5 @@
-syslog
-======
+rsyslog
+=======
 
 Redirect all logs to one or more log servers. Choose between UDP or TCP, defaults to UDP. Will drop all logs lower than EMERG/PANIC if connection is interrupted and queue gets full.
 
@@ -27,8 +27,8 @@ This role is limited to
 Role Variables
 --------------
 
-* `syslog_journald_size` --- `1G`
-* `syslog_config` --- list of dicts configuring syslog servers - see below for dictionary keywords, default `{}`
+* `rsyslog_journald_size` --- `1G`
+* `rsyslog_config` --- list of dicts configuring syslog servers - see below for dictionary keywords, default `{}`
     * `type` --- syslog type - defaults to forward, default `omfwd`
     * `resume_retry_count` --- number of retries before loosing data, default `-1`
     * `queue_type` --- which kind of queue to use, default `LinkedList`
@@ -48,7 +48,13 @@ Example Playbook
 
     - hosts: servers
       roles:
-        - role: syslog
+        - role: rsyslog
+          rsyslog_config:
+          - target_ip: 10.100.10.10
+            target_protocol: udp
+
+queue.discardseverity=”8”)
+          
 
 Testing
 -------

@@ -1,4 +1,4 @@
-{% for l in syslog_config %}
+{% for l in rsyslog_config %}
 *.* action(type="{{ l.type | default('omfwd') }}"
 queue.type="{{ l.queue_type | default('LinkedList') }}"
 action.resumeRetryCount="{{ l.resume_retry_count | default(-1)  }}"

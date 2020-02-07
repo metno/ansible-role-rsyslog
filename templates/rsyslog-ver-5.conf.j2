@@ -1,4 +1,4 @@
-{% for l in syslog_config %}
+{% for l in rsyslog_config %}
 $ActionQueueType {{ l.queue_type | default('LinkedList') }}
 $ActionQueueFileName srvrfwd{{ loop.index }}
 $ActionResumeRetryCount {{ l.resume_retry_count | default(-1) }}

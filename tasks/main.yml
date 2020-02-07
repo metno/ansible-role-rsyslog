@@ -58,7 +58,7 @@
     - key: ForwardToSyslog
       value: 'yes'
     - key: SystemMaxUse
-      value: '{{ syslog_journald_size }}'
+      value: '{{ rsyslog_journald_size }}'
   register: content_journald_conf
   when: file_journald_conf.stat.exists
 
