@@ -24,6 +24,7 @@
     executable: /bin/bash
   register: bash_rsyslog_version
   changed_when: false
+  check_mode: false
   failed_when: bash_rsyslog_version.rc != 0
 
 - name: populate rsyslog_version variable

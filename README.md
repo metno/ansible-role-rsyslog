@@ -8,6 +8,7 @@ Important! Sends logs unencrypted to remote syslog server.
 Version
 -------
 
+* `1.0.2` --- bugfix, allow running Ansible in check mode
 * `1.0.1` --- fixed missing default
 * `1.0.0` --- initial role
 * `master` --- latest development version
