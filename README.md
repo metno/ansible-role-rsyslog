@@ -8,6 +8,7 @@ Important! Sends logs unencrypted to remote syslog server.
 Version
 -------
 
+* `1.0.1` --- fixed missing default
 * `1.0.0` --- initial role
 * `master` --- latest development version
 
@@ -28,7 +29,7 @@ Role Variables
 --------------
 
 * `rsyslog_journald_size` --- `1G`
-* `rsyslog_config` --- list of dicts configuring syslog servers - see below for dictionary keywords, default `{}`
+* `rsyslog_config` --- list of dicts configuring syslog servers - see below for dictionary keywords, default `[]`
     * `type` --- syslog type - defaults to forward, default `omfwd`
     * `resume_retry_count` --- number of retries before loosing data, default `-1`
     * `queue_type` --- which kind of queue to use, default `LinkedList`
