@@ -37,6 +37,7 @@
     dest: /etc/rsyslog.d/99-remote.conf
     src: 'rsyslog-ver-{{ rsyslog_version | string  }}.conf.j2'
   register: remote_conf
+  when: rsyslog_version|int > 0
 
 - name: restart rsyslog if remote has changed
   service:
