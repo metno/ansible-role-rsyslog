@@ -8,6 +8,7 @@ Important! Sends logs unencrypted to remote syslog server.
 Version
 -------
 
+* `1.0.5` --- prepare for github
 * `1.0.4` --- bugfix, error when running in check mode
 * `1.0.3` --- install rsyslog even in check mode
 * `1.0.2` --- bugfix, allow running Ansible in check mode
@@ -98,7 +99,7 @@ cat ~/.ssh/config | grep ^Host | cut -d\  -f2 | xargs cssh
 License
 -------
 
-MIT / BSD
+GPLv2
 
 Author Information
 ------------------
