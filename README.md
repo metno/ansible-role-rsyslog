@@ -8,6 +8,7 @@ Important! Sends logs unencrypted to remote syslog server.
 Version
 -------
 
+* `1.0.6` --- tested with Ansible 2.9.11
 * `1.0.5` --- prepare for github
 * `1.0.4` --- bugfix, error when running in check mode
 * `1.0.3` --- install rsyslog even in check mode
