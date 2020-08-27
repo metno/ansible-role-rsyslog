@@ -8,6 +8,7 @@ Important! Sends logs unencrypted to remote syslog server.
 Version
 -------
 
+* `1.1.1` --- fix lint warnings
 * `1.1.0` --- added ubuntu focal, 20.04
 * `1.0.6` --- tested with Ansible 2.9.11
 * `1.0.5` --- prepare for github
