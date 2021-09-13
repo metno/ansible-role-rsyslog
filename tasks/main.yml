@@ -62,6 +62,7 @@
     section: Journal
     option: '{{ item.key }}'
     value: '{{ item.value }}'
+    mode: '0644'
   loop:
     - key: ForwardToSyslog
       value: 'yes'
