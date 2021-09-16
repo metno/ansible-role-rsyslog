@@ -1,9 +1,0 @@
-{% for l in rsyslog_config %}
-*.* action(type="{{ l.type | default('omfwd') }}"
-queue.type="{{ l.queue_type | default('LinkedList') }}"
-action.resumeRetryCount="{{ l.resume_retry_count | default(-1)  }}"
-queue.size="{{ l.queue_size | default(10000) }}"
-queue.saveonshutdown="{{ 'on' if l.queue_save_on_shutdown | default(true) else 'off' }}"
-queue.discardseverity="0"
-target="{{ l.target_ip }}" Port="{{ l.target_port | default(514) }}" Protocol="{{ l.target_protocol | default('udp') }}")
-{% endfor %}
