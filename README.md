@@ -50,7 +50,7 @@ Role Variables
 Dependencies
 ------------
 
-None.
+The RHEL8 image needs to be registered with RedHat to install packages.
 
 Example Playbook
 ----------------
@@ -67,6 +67,12 @@ queue.discardseverity=”8”)
 
 Testing
 -------
+
+To test RHEL8 with vagrant, install `vagrant-register`
+
+```bash
+vagrant plugin install vagrant-registration
+```
 
 ### Test environment for all OSes
 
