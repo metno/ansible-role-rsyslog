@@ -1,4 +1,4 @@
-rsyslog
+	rsyslog
 =======
 
 Redirect all logs to one or more log servers. Choose between UDP or TCP, defaults to UDP. Will drop all logs lower than EMERG/PANIC if connection is interrupted and queue gets full.
@@ -85,7 +85,7 @@ Log into the syslog server and look at the logs.
 
 ```bash
 vagrant ssh syslog
-cd /var/log
+cd /srv/log
 find
 ```
 

@@ -4,8 +4,67 @@
   tasks:
     - name: install rsyslog
       package:
-        name: rsyslog
+        name:
+          - rsyslog
+          - rsyslog-gnutls
+          - gnutls-bin
       check_mode: false
+
+    - name: drop ca.info
+      copy:
+        content: |
+          organization = Snake Oil
+          cn = Snake Oil CA
+          country = US
+          ca
+          cert_signing_key
+          crl_signing_key
+          expiration_days = 10
+        dest: /vagrant/ca.info
+
+    - name: drop server.info
+      copy:
+        content: |
+          organization = Snake Oil
+          cn = syslog
+          tls_www_server
+          encryption_key
+          expiration_days = 5
+          signing_key
+        dest: /vagrant/syslog.info
+
+    - name: check if cert exists
+      stat:
+        path: /vagrant/cert.pem
+      register: certfile
+        
+    - name: create ca and cert
+      shell: |
+        certtool --generate-privkey --outfile /vagrant/ca-key.pem
+        certtool --generate-self-signed --load-privkey /vagrant/ca-key.pem --template /vagrant/ca.info --outfile /vagrant/ca.pem
+        certtool --generate-privkey --outfile /vagrant/key.pem
+        certtool --generate-certificate --load-privkey /vagrant/key.pem --outfile /vagrant/cert.pem --load-ca-certificate /vagrant/ca.pem --load-ca-privkey /vagrant/ca-key.pem --template /vagrant/syslog.info
+      when: not certfile.stat.exists
+
+    - name: set owner and mode of the cert files to syslog
+      file:
+        path="/vagrant/{{ item }}"
+        mode="666"
+      loop:
+        - ca-key.pem
+        - ca.pem
+        - key.pem
+        - cert.pem
+        
+    - name: create log directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: syslog
+        mode: 0755
+      loop:
+        - /srv/log/warn
+        - /srv/log/all
 
     - name: drop config file
       copy:
@@ -13,11 +72,39 @@
           module(load="imudp")
           input(type="imudp" port="514")
 
-          module(load="imtcp")
-          input(type="imtcp" port="514")
+          # load TCP listener
+          module(
+            load="imtcp"
+            StreamDriver.Name="gtls"
+            StreamDriver.Mode="1"
+            StreamDriver.Authmode="anon"
+          )
+          
+          # make gtls driver the default and set certificate files
+          global(
+            defaultNetstreamDriver="gtls"
+            defaultNetstreamDriverCAFile="/vagrant/ca.pem"
+            defaultNetstreamDriverCertFile="/vagrant/cert.pem"
+            defaultNetstreamDriverKeyFile="/vagrant/key.pem"
+          )
 
-          $template Everything,"/srv/log/all/%fromhost%.log"
-          $template WarningToEmerg,"/srv/log/warn/%fromhost%.log"
+          # start up listener at port 6514
+          input(
+            type="imtcp"
+            port="6514"
+          )
+          
+          template(
+            name="Everything"
+            type="string"
+            string="/srv/log/all/%fromhost%.log"
+          )
+          
+          template(
+            name="WarningToEmerg"
+            type="string"
+            string="/srv/log/warn/%fromhost%.log"
+          )
 
           # Log all important messages (warnings and higher) to separate files
           if ($syslogseverity != '5') and ($syslogseverity != '6') and ($syslogseverity != '7') then -?WarningToEmerg
@@ -28,10 +115,10 @@
           if ($fromhost != 'syslog') then stop
           & ~
         dest: /etc/rsyslog.d/00-remote.conf
-      register: remote_conf
+      register: rsyslog_conf
       
     - name: restart rsyslog if remote has changed
       service:
         name: rsyslog
         state: restarted
-      when: remote_conf is changed
+      when: rsyslog_conf is changed

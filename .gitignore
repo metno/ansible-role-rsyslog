@@ -2,3 +2,5 @@
 .vagrant
 *swp
 tests/console-output.*
+*pem
+*info
