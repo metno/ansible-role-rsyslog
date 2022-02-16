@@ -42,30 +42,11 @@ Vagrant.configure("2") do |config|
         end
       end
       if opts[:name] == "syslog"
-        config.vm.provision "shell", inline: <<-SHELL
-          mkdir -p /srv/log/{all,warn}
-          chown syslog:adm /srv/log/{all,warn}
-          cat <<EOF > /etc/rsyslog.d/00-remote.conf
-module(load="imudp")
-input(type="imudp" port="514")
-
-module(load="imtcp")
-input(type="imtcp" port="514")
-
-\\$template Everything,"/srv/log/all/%fromhost%.log"
-\\$template WarningToEmerg,"/srv/log/warn/%fromhost%.log"
-
-# Log all important messages (warnings and higher) to separate files
-if (\\$syslogseverity != '5') and (\\$syslogseverity != '6') and (\\$syslogseverity != '7') then -?WarningToEmerg
-
-# Log all messages to file
-*.* -?Everything
-
-if (\\$fromhost != 'syslog') then stop
-& ~
-EOF
-          systemctl restart rsyslog
-        SHELL
+        config.vm.provision "ansible: run", type: "ansible" do |ansible|
+          ansible.compatibility_mode = "2.0"
+          ansible.playbook = "syslog.yml"
+          ansible.limit = "syslog"
+        end
       end
     end
   end

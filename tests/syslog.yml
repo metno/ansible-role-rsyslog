@@ -1,0 +1,37 @@
+---
+- hosts: syslog
+  become: true
+  tasks:
+    - name: install rsyslog
+      package:
+        name: rsyslog
+      check_mode: false
+
+    - name: drop config file
+      copy:
+        content: |
+          module(load="imudp")
+          input(type="imudp" port="514")
+
+          module(load="imtcp")
+          input(type="imtcp" port="514")
+
+          $template Everything,"/srv/log/all/%fromhost%.log"
+          $template WarningToEmerg,"/srv/log/warn/%fromhost%.log"
+
+          # Log all important messages (warnings and higher) to separate files
+          if ($syslogseverity != '5') and ($syslogseverity != '6') and ($syslogseverity != '7') then -?WarningToEmerg
+
+          # Log all messages to file
+          *.* -?Everything
+          
+          if ($fromhost != 'syslog') then stop
+          & ~
+        dest: /etc/rsyslog.d/00-remote.conf
+      register: remote_conf
+      
+    - name: restart rsyslog if remote has changed
+      service:
+        name: rsyslog
+        state: restarted
+      when: remote_conf is changed
