@@ -1,9 +1,22 @@
 # vim: ai et ts=2 st=2 sw=2 :
 ---
-- hosts: all
+- hosts: all,!syslog
   become: true
+
+  pre_tasks:
+    - name: centos7 + rhel - set selinux to permissive (certs need to be handled elsewhere irl)
+      selinux:
+        policy: targeted
+        state: permissive
+      when:
+        ( ansible_distribution|lower == "centos" and ansible_distribution_major_version|int in [7, 8] )
+        or ( ansible_os_family|lower == "redhat" and ansible_distribution_major_version|int in [8] )
+
+
   roles:
     - role: ../../.
+      rsyslog_tls: yes
       rsyslog_config:
         - target_ip: 10.100.10.10
-          target_protocol: udp
+          target_protocol: tcp
+          target_cacert: /vagrant/ca.pem

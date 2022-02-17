@@ -1,2 +1,17 @@
 # vim: ai et ts=2 st=2 sw=2 :
 ---
+
+- name: install rsyslog
+  apt:
+    name: rsyslog
+    force_apt_get: true
+    update_cache: yes
+    cache_valid_time: "{{ 3600 * 3 }}"
+
+- name: install rsyslog-gnutls
+  apt:
+    name: rsyslog-gnutls
+    force_apt_get: true
+    update_cache: yes
+    cache_valid_time: "{{ 3600 * 3 }}"
+  when: rsyslog_tls is true

@@ -1,14 +1,21 @@
+# vim: ai et ts=2 st=2 sw=2 :
 ---
 - hosts: syslog
   become: true
   tasks:
+    - name: update apt-cache
+      apt:
+        update_cache: yes
+        cache_valid_time: "{{ 3600 * 3 }}"
+
     - name: install rsyslog
-      package:
-        name:
-          - rsyslog
-          - rsyslog-gnutls
-          - gnutls-bin
-      check_mode: false
+      apt:
+        name: "{{ item }}"
+        force_apt_get: true
+      loop:
+        - rsyslog
+        - rsyslog-gnutls
+        - gnutls-bin
 
     - name: drop ca.info
       copy:
@@ -82,10 +89,10 @@
           
           # make gtls driver the default and set certificate files
           global(
-            defaultNetstreamDriver="gtls"
-            defaultNetstreamDriverCAFile="/vagrant/ca.pem"
-            defaultNetstreamDriverCertFile="/vagrant/cert.pem"
-            defaultNetstreamDriverKeyFile="/vagrant/key.pem"
+            DefaultNetstreamDriver="gtls"
+            DefaultNetstreamDriverCAFile="/vagrant/ca.pem"
+            DefaultNetstreamDriverCertFile="/vagrant/cert.pem"
+            DefaultNetstreamDriverKeyFile="/vagrant/key.pem"
           )
 
           # start up listener at port 6514

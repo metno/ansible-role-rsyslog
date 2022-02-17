@@ -1,3 +1,14 @@
 # vim: ai et ts=2 st=2 sw=2 :
 ---
 
+- name: install rsyslog
+  yum:
+    name: rsyslog
+    state: present
+
+- name: install rsyslog
+  yum:
+    name: rsyslog-gnutls
+    state: present
+  when: rsyslog_tls is true
+
