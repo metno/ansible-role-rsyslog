@@ -8,6 +8,7 @@ Important! Sends logs unencrypted to remote syslog server.
 Version
 -------
 
+* `2.0.0` --- support for TLS, switch centos8 with almaLinux8
 * `1.3.0` --- add rhel8 support; remove trusty and centos6 support
 * `1.2.0` --- remove ubuntu precise from testing
 * `1.1.1` --- fix lint warnings
@@ -37,6 +38,7 @@ Role Variables
 --------------
 
 * `rsyslog_journald_size` --- `1G`
+* `rsyslog_tls` --- if clients should send with TLS
 * `rsyslog_config` --- list of dicts configuring syslog servers - see below for dictionary keywords, default `[]`
     * `type` --- syslog type - defaults to forward, default `omfwd`
     * `resume_retry_count` --- number of retries before loosing data, default `-1`
@@ -45,7 +47,11 @@ Role Variables
     * `queue_save_on_shutdown` --- save state of queue on shutdown, default `true`
     * `target_ip` --- destination syslog server, __required__
     * `target_port` --- destination syslog port, default `514`
-    * `target_protocol` --- protocol to use when talking to syslog server, default `udp`
+    * `target_protocol` --- protocol to use when talking to syslog server, default `udp` (`tcp` if TLS)
+    * `target_cacert` --- needed if `rsyslog_tls` is true. default `""`
+    * `target_stream_driver` --- TLS stream driver. default `gtls`
+    * `target_stream_driver_mode` --- TLS stream driver mode. default `1`
+    * `target_stream_driver_auth_mode` --- TLS stream driver auth mode. default `anon`
 
 Dependencies
 ------------
@@ -61,9 +67,6 @@ Example Playbook
           rsyslog_config:
           - target_ip: 10.100.10.10
             target_protocol: udp
-
-queue.discardseverity=”8”)
-          
 
 Testing
 -------
