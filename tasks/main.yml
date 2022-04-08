@@ -76,5 +76,3 @@
     name: systemd-journald
     state: restarted
   when: content_journald_conf is changed
-
-
