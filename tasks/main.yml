@@ -1,6 +1,6 @@
 # vim: ai et ts=2 st=2 sw=2 :
 ---
-- name: check if we're running supported os
+- name: Check if we're running supported os
   assert:
     fail_msg: "{{ role_name }} only supports ubuntu versions 16, 18, 20, 22, centos versions 8 and rhel version 8!"
     success_msg: "{{ role_name }} supports {{ ansible_distribution }} version {{ ansible_distribution_version }}"
@@ -10,15 +10,15 @@
       or ( ansible_distribution|lower == "centos" and ansible_distribution_major_version|int in [7] )
       or ( ansible_distribution|lower == "redhat" and ansible_distribution_major_version|int in [8] )
 
-- name: specific config for debian and redhat systems
+- name: Specific config for debian and redhat systems
   include: "{{ ansible_os_family | lower }}.yml"
 
-- name: install rsyslog
+- name: Install rsyslog
   package:
     name: rsyslog
   check_mode: false
 
-- name: find rsyslog version
+- name: Find rsyslog version
   shell: |
     set -o pipefail
     rsyslogd -v | grep -Eo 'rsyslogd\s+\w+' | awk '{ print $2 }'
@@ -29,33 +29,33 @@
   check_mode: false
   failed_when: bash_rsyslog_version.rc != 0
 
-- name: populate rsyslog_version variable
+- name: Populate rsyslog_version variable
   set_fact:
     rsyslog_version: "{{ bash_rsyslog_version.stdout | int }}"
 
 - debug:
     var: bash_rsyslog_version.stdout
 
-- name: copy remote syslog config
+- name: Copy remote syslog config
   template:
     dest: /etc/rsyslog.d/99-remote.conf
-    src: 'rsyslog-ver-{{ rsyslog_version | string  }}.conf.j2'
+    src: 'rsyslog-ver-{{ rsyslog_version | string }}.conf.j2'
     mode: 0644
   register: remote_conf
-  when: rsyslog_version|int > 0
+  when: rsyslog_version | int > 0
 
-- name: restart rsyslog if remote has changed
+- name: Restart rsyslog if remote has changed
   service:
     name: rsyslog
     state: restarted
   when: remote_conf is changed
 
-- name: check if journald.conf exists
+- name: Check if journald.conf exists
   stat:
     path: /etc/systemd/journald.conf
   register: file_journald_conf
 
-- name: update journald.conf
+- name: Update journald.conf
   ini_file:
     path: /etc/systemd/journald.conf
     no_extra_spaces: true
@@ -71,7 +71,7 @@
   register: content_journald_conf
   when: file_journald_conf.stat.exists
 
-- name: restart journald
+- name: Restart journald
   service:
     name: systemd-journald
     state: restarted
