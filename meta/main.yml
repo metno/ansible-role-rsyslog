@@ -27,4 +27,7 @@ galaxy_info:
   galaxy_tags:
     - syslog
 
+collections:
+  - "community.general"
+
 dependencies: []
