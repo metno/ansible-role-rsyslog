@@ -8,6 +8,7 @@ Important! Sends logs unencrypted to remote syslog server.
 Version
 -------
 
+* `2.0.0` --- updated ansible to 2.12.9
 * `1.5.0` --- add RHEL9 and CentOS Stream 8 support
 * `1.4.0` --- add jammy support; remove centos8 support
 * `1.3.0` --- add rhel8 support; remove trusty and centos6 support
