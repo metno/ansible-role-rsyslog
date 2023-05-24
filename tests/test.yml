@@ -1,6 +1,7 @@
 # vim: ai et ts=2 st=2 sw=2 :
 ---
-- hosts: all
+- name: Test playbook
+  hosts: all
   become: true
   roles:
     - role: ../../.
