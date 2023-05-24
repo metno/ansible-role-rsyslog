@@ -43,7 +43,7 @@
   ansible.builtin.template:
     dest: /etc/rsyslog.d/99-remote.conf
     src: 'rsyslog-ver-{{ rsyslog_version | string }}.conf.j2'
-    mode: 0644
+    mode: '0644'
   register: remote_conf
   when: rsyslog_version | int > 0
 
