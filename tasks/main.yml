@@ -12,7 +12,8 @@
       or ( ansible_distribution|lower == "redhat" and ansible_distribution_major_version|int in [8, 9] )
 
 - name: Specific config for debian and redhat systems
-  ansible.builtin.include: "{{ ansible_os_family | lower }}.yml"
+  ansible.builtin.include_tasks:
+    file: "{{ ansible_os_family | lower }}.yml"
 
 - name: Install rsyslog
   ansible.builtin.package:
@@ -34,7 +35,8 @@
   ansible.builtin.set_fact:
     rsyslog_version: "{{ bash_rsyslog_version.stdout | int }}"
 
-- debug:
+- name: Set rsyslog version variable
+  ansible.builtin.debug:
     var: bash_rsyslog_version.stdout
 
 - name: Copy remote syslog config
