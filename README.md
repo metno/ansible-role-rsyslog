@@ -8,6 +8,7 @@ Important! Sends logs unencrypted to remote syslog server.
 Version
 -------
 
+* `2.1.0` --- Initial support for Fedora CoreOS, but with no tests
 * `2.0.1` --- bug fix, ansible-lint
 * `2.0.0` --- updated ansible to 2.12.9
 * `1.5.0` --- add RHEL9 and CentOS Stream 8 support
@@ -73,6 +74,9 @@ queue.discardseverity=”8”)
 
 Testing
 -------
+
+NOTICE: Fedora CoreOS is tested manually, but currently no automatic tests
+are added for FCOS.
 
 To test RHEL8 with vagrant, install `vagrant-register`
 
