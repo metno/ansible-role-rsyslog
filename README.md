@@ -8,6 +8,7 @@ Important! Sends logs unencrypted to remote syslog server.
 Version
 -------
 
+* `2.1.1` --- Allow Fedora CoreOS 39
 * `2.1.0` --- Initial support for Fedora CoreOS, but with no tests
 * `2.0.1` --- bug fix, ansible-lint
 * `2.0.0` --- updated ansible to 2.12.9
@@ -39,6 +40,8 @@ This role is limited to
 * CentOS Stream 8
 * RHEL 8
 * RHEL 9
+* Fedora CoreOS 38
+* Fedora CoreOS 39
 
 Role Variables
 --------------
