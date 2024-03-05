@@ -1,12 +1,11 @@
 # vim: ai et ts=2 st=2 sw=2 :
 ---
 galaxy_info:
-  standalone: true
   author: Arnulf Heimsbakk
   description: Redirect all logs to one or more logservers
   company: MET Norway
   role_name: rsyslog
-  namespace: met
+  namespace: metno
 
   license: GPLv2
 
@@ -15,6 +14,7 @@ galaxy_info:
   platforms:
     - name: "Ubuntu"
       versions:
+        - "noble"
         - "jammy"
         - "focal"
         - "bionic"
