@@ -3,7 +3,7 @@
 image: alpine:3.10
 
 variables:
-  ANSIBLE_FORCE_COLOR: "true"
+  ANSIBLE_FORCE_COLOR: "true" # noqa yaml[truthy]
 
 stages:
   - lint
@@ -16,4 +16,3 @@ ansible-lint:
     - ansible-lint -x 204,503,701 -v .
   tags:
     - dind
-
