@@ -8,6 +8,7 @@ Important! Sends logs unencrypted to remote syslog server.
 Version
 -------
 
+* `2.2.0` --- Support Ubuntu 24.04
 * `2.1.1` --- Allow Fedora CoreOS 39
 * `2.1.0` --- Initial support for Fedora CoreOS, but with no tests
 * `2.0.1` --- bug fix, ansible-lint
@@ -32,6 +33,7 @@ Requirements
 
 This role is limited to
 
+* Ubuntu 24.04 - Noble
 * Ubuntu 22.04 - Jammy
 * Ubuntu 20.04 - Focal
 * Ubuntu 18.04 - Bionic
