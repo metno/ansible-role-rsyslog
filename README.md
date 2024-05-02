@@ -8,6 +8,7 @@ Important! Sends logs unencrypted to remote syslog server.
 Version
 -------
 
+* `3.0.0` --- Add Unsible-core 2.16. Removed support for Ubuntu xenial and bionic
 * `2.2.0` --- Support Ubuntu 24.04
 * `2.1.1` --- Allow Fedora CoreOS 39
 * `2.1.0` --- Initial support for Fedora CoreOS, but with no tests
@@ -36,8 +37,6 @@ This role is limited to
 * Ubuntu 24.04 - Noble
 * Ubuntu 22.04 - Jammy
 * Ubuntu 20.04 - Focal
-* Ubuntu 18.04 - Bionic
-* Ubuntu 16.04 - Xenial
 * CentOS 7
 * CentOS Stream 8
 * RHEL 8
@@ -129,6 +128,9 @@ GPLv2
 Author Information
 ------------------
 
-Created 2020 by [Arnulf Heimsbakk](mailto:arnulf.heimsbakk@met.no) for MET Norway.
+Created 2020 by IT Infrastructure at MET Norway
+
+Contactpoint: [IT Infrastructure Basis Team](mailto:it-is-basis@met.no)
+
 
 ###### set vim: spell spelllang=en:
