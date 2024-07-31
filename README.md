@@ -66,15 +66,16 @@ The RHEL8 image needs to be registered with RedHat to install packages.
 Example Playbook
 ----------------
 
+Note that `- target_ip: ...` can be repeated
+
     - hosts: servers
       roles:
         - role: rsyslog
           rsyslog_config:
           - target_ip: 10.100.10.10
             target_protocol: udp
-
-queue.discardseverity=”8”)
-          
+          - target_ip: 10.100.10.11
+            target_protocol: udp
 
 Testing
 -------
