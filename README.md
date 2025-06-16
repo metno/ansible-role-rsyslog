@@ -8,6 +8,7 @@ Important! Sends logs unencrypted to remote syslog server.
 Version
 -------
 
+* `3.1.0` --- Add support for custom templates
 * `3.0.0` --- Add Unsible-core 2.16. Removed support for Ubuntu xenial and bionic
 * `2.2.0` --- Support Ubuntu 24.04
 * `2.1.1` --- Allow Fedora CoreOS 39
