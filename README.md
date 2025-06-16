@@ -50,6 +50,7 @@ Role Variables
 * `rsyslog_journald_size` --- `1G`
 * `rsyslog_config` --- list of dicts configuring syslog servers - see below for dictionary keywords, default `[]`
     * `type` --- syslog type - defaults to forward, default `omfwd`
+    * `template` --- sets a custom default template for this module, default depends on the module
     * `resume_retry_count` --- number of retries before loosing data, default `-1`
     * `queue_type` --- which kind of queue to use, default `LinkedList`
     * `queue_size` --- max size of the queue, default `10000`
