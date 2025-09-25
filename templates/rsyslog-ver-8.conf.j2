@@ -1,5 +1,8 @@
 {% for l in rsyslog_config %}
 *.* action(type="{{ l.type | default('omfwd') }}"
+{% if 'template' in l and l.template %}
+template="{{ l.template }}"
+{% endif %}
 queue.type="{{ l.queue_type | default('LinkedList') }}"
 action.resumeRetryCount="{{ l.resume_retry_count | default(-1)  }}"
 queue.size="{{ l.queue_size | default(10000) }}"

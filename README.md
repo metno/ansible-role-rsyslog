@@ -7,7 +7,7 @@ Important! Sends logs unencrypted to remote syslog server.
 
 Version
 -------
-
+* `3.1.0` --- Add support for custom templates
 * `3.0.1` --- Update support for Fedora CoreOS to v41 (and remove older versions)
 * `3.0.0` --- Add Unsible-core 2.16. Removed support for Ubuntu xenial and bionic
 * `2.2.0` --- Support Ubuntu 24.04
@@ -50,6 +50,7 @@ Role Variables
 * `rsyslog_journald_size` --- `1G`
 * `rsyslog_config` --- list of dicts configuring syslog servers - see below for dictionary keywords, default `[]`
     * `type` --- syslog type - defaults to forward, default `omfwd`
+    * `template` --- sets a custom default template for this module, default depends on the module
     * `resume_retry_count` --- number of retries before loosing data, default `-1`
     * `queue_type` --- which kind of queue to use, default `LinkedList`
     * `queue_size` --- max size of the queue, default `10000`
@@ -66,15 +67,16 @@ The RHEL8 image needs to be registered with RedHat to install packages.
 Example Playbook
 ----------------
 
+Note that `- target_ip: ...` can be repeated
+
     - hosts: servers
       roles:
         - role: rsyslog
           rsyslog_config:
           - target_ip: 10.100.10.10
             target_protocol: udp
-
-queue.discardseverity=”8”)
-          
+          - target_ip: 10.100.10.11
+            target_protocol: udp
 
 Testing
 -------
