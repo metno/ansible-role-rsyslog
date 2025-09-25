@@ -1,0 +1,56 @@
+- name: Verify
+  become: true
+  hosts: all
+  gather_facts: true
+
+  tasks:
+    - name: Gather package facts
+      ansible.builtin.package_facts:
+        manager: auto
+
+    - name: Assert that chrony is installed
+      ansible.builtin.assert:
+        that: "'rsyslog' in ansible_facts.packages"
+        fail_msg: "The package 'rsyslog' is NOT installed!"
+        success_msg: "The package 'rsyslog' is installed."
+
+    - name: Render the template in memory
+      ansible.builtin.set_fact:
+        rendered_template: "{{ lookup('template', playbook_dir + '/../../templates/rsyslog-ver-8.conf.j2') }}"
+
+    - name: Calculate checksum of rendered template
+      ansible.builtin.set_fact:
+        rendered_template_checksum: "{{ rendered_template | hash('sha256') }}"
+
+    - name: Get checksum of the file on the host
+      ansible.builtin.stat:
+        path: /etc/rsyslog.d/99-remote.conf
+        checksum_algorithm: sha256
+      register: host_file_stat
+
+    - name: Assert that the two files are identical
+      ansible.builtin.assert:
+        that:
+          - rendered_template_checksum == host_file_stat.stat.checksum
+        fail_msg: "The template does not match the file on the host."
+        success_msg: "The template matches the file on the host."
+
+    - name: Check ForwardToSyslog value in /etc/systemd/journald.conf
+      ansible.builtin.command: grep '^ForwardToSyslog=' /etc/systemd/journald.conf
+      register: forward_to_syslog_value
+      changed_when: false
+
+    - name: Assert ForwardToSyslog is set to 'yes'
+      ansible.builtin.assert:
+        that:
+          - forward_to_syslog_value.stdout == 'ForwardToSyslog=yes'
+
+    - name: Check SystemMaxUse value in /etc/systemd/journald.conf
+      ansible.builtin.command: grep '^SystemMaxUse=' /etc/systemd/journald.conf
+      register: system_max_use_value
+      changed_when: false
+
+    - name: Assert SystemMaxUse is set to '1G'
+      ansible.builtin.assert:
+        that:
+          - system_max_use_value.stdout == 'SystemMaxUse=1G'

@@ -7,6 +7,8 @@ Important! Sends logs unencrypted to remote syslog server.
 
 Version
 -------
+
+* `3.1.1` --- Moved testing to Ansible Molecule
 * `3.1.0` --- Add support for custom templates
 * `3.0.1` --- Update support for Fedora CoreOS to v41 (and remove older versions)
 * `3.0.0` --- Add Unsible-core 2.16. Removed support for Ubuntu xenial and bionic
@@ -92,34 +94,26 @@ vagrant plugin install vagrant-registration
 
 ### Test environment for all OSes
 
+Testing is done using Ansible Molecule. It uses Vagrant with libvirt as backend.
+
+To run full test run:
+
 ```bash
-cd tests
-vagrant up
+molecule test
 ```
 
-Log into the syslog server and look at the logs.
+To run test step by step run:
 
 ```bash
-vagrant ssh syslog
-cd /var/log
-find
+molecule create
+molecule converge
+molecule verify
+molecule destroy
 ```
 
-### Rerun role
-
-Run role on all OSes again.
-
-```bash
-vagrant provision
+To run toward specific scenario use `-s` option.
 ```
-
-### Debug interactively
-
-This uses cluster ssh to work with all vagrant boxes at the same time.
-
-```bash
-vagrant ssh-config > ~/.ssh/config
-cat ~/.ssh/config | grep ^Host | cut -d\  -f2 | xargs cssh
+molecule test -s ubuntu
 ```
 
 License
