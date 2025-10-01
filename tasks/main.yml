@@ -9,7 +9,7 @@
     that:
       ( ansible_distribution|lower == "ubuntu" and ansible_distribution_version|int in [20, 22, 24] )
       or ( ansible_distribution|lower == "centos" and ansible_distribution_major_version|int in [7, 8] )
-      or ( ansible_os_family|lower == "redhat" and ansible_distribution_major_version|int in [8, 9] )
+      or ( ansible_os_family|lower == "redhat" and ansible_distribution_major_version|int in [8, 9, 10] )
       or ( ansible_distribution|lower == "fedora" and ansible_distribution_major_version|int in [41] )
 
 - name: Install rsyslog
@@ -64,6 +64,17 @@
     path: /etc/systemd/journald.conf
   register: file_journald_conf
 
+- name: Create journald.conf if it does not exist on RedHat 10
+  ansible.builtin.copy:
+    src: /usr/lib/systemd/journald.conf
+    dest: /etc/systemd/journald.conf
+    remote_src: true
+  register: create_journald_conf
+  when:
+    - not file_journald_conf.stat.exists
+    - ansible_os_family|lower == "redhat"
+    - ansible_distribution_major_version|int in [10]
+
 - name: Update journald.conf
   community.general.ini_file:
     path: /etc/systemd/journald.conf
@@ -78,7 +89,7 @@
     - key: SystemMaxUse
       value: '{{ rsyslog_journald_size }}'
   register: content_journald_conf
-  when: file_journald_conf.stat.exists
+  when: file_journald_conf.stat.exists or create_journald_conf
 
 - name: Restart journald
   ansible.builtin.service:
