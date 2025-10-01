@@ -8,6 +8,7 @@ Important! Sends logs unencrypted to remote syslog server.
 Version
 -------
 
+* `3.2.0` --- Added support for RHEL10. The role now supports os_family = redhat.
 * `3.1.1` --- Moved testing to Ansible Molecule
 * `3.1.0` --- Add support for custom templates
 * `3.0.1` --- Update support for Fedora CoreOS to v41 (and remove older versions)
@@ -35,15 +36,12 @@ Version
 Requirements
 ------------
 
-This role is limited to
+This role supports
 
-* Ubuntu 24.04 - Noble
-* Ubuntu 22.04 - Jammy
-* Ubuntu 20.04 - Focal
+* RedHat Based OS, version 8,9,10
+* Ubuntu 20.04, 22.04, and 24.04
 * CentOS 7
 * CentOS Stream 8
-* RHEL 8
-* RHEL 9
 * Fedora CoreOS 41
 
 Role Variables
