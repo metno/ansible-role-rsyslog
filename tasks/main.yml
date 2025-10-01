@@ -68,6 +68,7 @@
   ansible.builtin.copy:
     src: /usr/lib/systemd/journald.conf
     dest: /etc/systemd/journald.conf
+    mode: "0644"
     remote_src: true
   register: create_journald_conf
   when:
