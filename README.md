@@ -85,7 +85,7 @@ Testing
 NOTICE: Fedora CoreOS is tested manually, but currently no automatic tests
 are added for FCOS.
 
-Testing is done using Ansible Molecule. It uses Vagrant with libvirt as backend.
+Testing is done using Ansible Molecule. It uses our libvirt-provision role as backend.
 
 Testing is done on Almalinux and Ubuntu.
 
