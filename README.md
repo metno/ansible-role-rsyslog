@@ -8,6 +8,7 @@ Important! Sends logs unencrypted to remote syslog server.
 Version
 -------
 
+* `3.2.1` --- Updated molecule test setup
 * `3.2.0` --- Added support for RHEL10. The role now supports os_family = redhat.
 * `3.1.1` --- Moved testing to Ansible Molecule
 * `3.1.0` --- Add support for custom templates
@@ -84,17 +85,11 @@ Testing
 NOTICE: Fedora CoreOS is tested manually, but currently no automatic tests
 are added for FCOS.
 
-To test RHEL8 with vagrant, install `vagrant-register`
-
-```bash
-vagrant plugin install vagrant-registration
-```
-
-### Test environment for all OSes
-
 Testing is done using Ansible Molecule. It uses Vagrant with libvirt as backend.
 
-To run full test run:
+Testing is done on Almalinux and Ubuntu.
+
+To run test:
 
 ```bash
 molecule test
@@ -105,13 +100,9 @@ To run test step by step run:
 ```bash
 molecule create
 molecule converge
+molecule idempotence
 molecule verify
 molecule destroy
-```
-
-To run toward specific scenario use `-s` option.
-```
-molecule test -s ubuntu
 ```
 
 License
