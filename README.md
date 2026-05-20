@@ -8,6 +8,7 @@ Important! Sends logs unencrypted to remote syslog server.
 Version
 -------
 
+* `4.0.0` --- Added support for Ubuntu 26.04
 * `3.2.1` --- Updated molecule test setup
 * `3.2.0` --- Added support for RHEL10. The role now supports os_family = redhat.
 * `3.1.1` --- Moved testing to Ansible Molecule
@@ -40,7 +41,7 @@ Requirements
 This role supports
 
 * RedHat Based OS, version 8,9,10
-* Ubuntu 20.04, 22.04, and 24.04
+* Ubuntu 22.04, 24.04, 26.04
 * CentOS 7
 * CentOS Stream 8
 * Fedora CoreOS 41
